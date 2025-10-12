@@ -183,9 +183,10 @@ https://templatemo.com/tm-597-neural-glass
                 this.style.background = 'linear-gradient(45deg, #00ff00, #00ffff)';
                 
                 setTimeout(() => {
-                    this.innerHTML = 'Sudah dihantar ke akimm (BETA)';
+                    this.innerHTML = 'DIHANTAR KE AKIMM (BETA)';
                     this.style.background = 'linear-gradient(45deg, #00ffff, #ff0080)';
                 }, 2000);
             }, 1500);
 
         });
+
