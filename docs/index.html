@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+  <meta charset="UTF-8">
+  <title>Untuk Kamu 💖</title>
+  <style>
+    body {
+      background-color: #fff0f5;
+      font-family: 'Segoe UI', sans-serif;
+      text-align: center;
+      padding: 50px;
+      animation: fadeIn 2s ease-in;
+    }
+    h1 {
+      color: #ff1493;
+      font-size: 2.5em;
+      animation: pulse 2s infinite;
+    }
+    p {
+      font-size: 1.2em;
+      color: #333;
+    }
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    .btn {
+      background-color: #ff69b4;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 20px;
+      font-size: 1em;
+      cursor: pointer;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Hai 4kim 💌</h1>
+  <p>Terima kasih kerana sentiasa ada. Ini laman khas untuk kamu.</p>
+  <button class="btn" onclick="window.location.href='https://wa.me/?text=Hai%20saya%20suka%20laman%20ini!'">Kongsi ke WhatsApp</button>
+</body>
+</html>
