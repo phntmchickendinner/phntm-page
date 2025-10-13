@@ -1,23 +1,26 @@
-// JavaScript Document
+document.addEventListener('DOMContentLoaded', function() {
+    // JavaScript Document
 
-/*
+    /*
+    TemplateMo 597 Neural Glass
+    https://templatemo.com/tm-597-neural-glass
+    */
 
-TemplateMo 597 Neural Glass
+    // Pilihan elemen DOM
+    const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
+    const mobileNav = document.querySelector('.mobile-nav');
+    const header = document.querySelector('header');
 
-https://templatemo.com/tm-597-neural-glass
-
-*/
-
-// Mobile menu functionality
-        const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
-        const mobileNav = document.querySelector('.mobile-nav');
-
-        mobileMenuToggle.addEventListener('click', () => {
+    // --- MOBILE MENU FUNCTIONALITY ---
+    if (mobileMenuToggle && mobileNav) {
+        // Toggle menu apabila diklik
+        mobileMenuToggle.addEventListener('click', (e) => {
+            e.stopPropagation(); // Elak klik daripada mencetuskan event tutup luar
             mobileMenuToggle.classList.toggle('active');
             mobileNav.classList.toggle('active');
         });
 
-        // Close mobile menu when clicking on links
+        // Tutup mobile menu apabila klik pada link
         document.querySelectorAll('.mobile-nav a').forEach(link => {
             link.addEventListener('click', () => {
                 mobileMenuToggle.classList.remove('active');
@@ -25,16 +28,187 @@ https://templatemo.com/tm-597-neural-glass
             });
         });
 
-        // Close mobile menu when clicking outside
+        // Tutup mobile menu apabila klik di luar kawasan menu/toggle
         document.addEventListener('click', (e) => {
-            if (!mobileMenuToggle.contains(e.target) && !mobileNav.contains(e.target)) {
+            // Semak jika menu aktif DAN klik bukan pada toggle atau menu itu sendiri
+            if (mobileNav.classList.contains('active') && !mobileMenuToggle.contains(e.target) && !mobileNav.contains(e.target)) {
                 mobileMenuToggle.classList.remove('active');
                 mobileNav.classList.remove('active');
             }
         });
+    }
 
-        // Enhanced smooth scrolling
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    // --- ENHANCED SMOOTH SCROLLING ---
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            const targetId = this.getAttribute('href');
+
+            // Skip if href is just "#" or is the base URL
+            if (targetId === '#' || targetId.length < 2) return;
+
+            const target = document.querySelector(targetId);
+            if (target) {
+                // Laraskan scroll margin top untuk akaun header tetap
+                const headerHeight = header ? header.offsetHeight + 30 : 0; // Ambil kira header dan margin
+                const targetPosition = target.getBoundingClientRect().top + window.pageYOffset - headerHeight;
+
+                window.scrollTo({
+                    top: targetPosition,
+                    behavior: 'smooth'
+                });
+            }
+        });
+    });
+
+    // --- ENHANCED HEADER SCROLL (Adding .scrolled class) ---
+    window.addEventListener('scroll', () => {
+        if (!header) return;
+        const scrolled = window.pageYOffset;
+        const scrollThreshold = 50; // Jarak tatal (50px)
+
+        if (scrolled > scrollThreshold) {
+            header.classList.add('scrolled');
+        } else {
+            header.classList.remove('scrolled');
+        }
+    });
+
+    // --- ACTIVE MENU ITEM HIGHLIGHTING ---
+    function updateActiveMenuItem() {
+        const sections = document.querySelectorAll('section[id]');
+        const navLinks = document.querySelectorAll('.nav-links a, .mobile-nav a');
+
+        let currentSection = '';
+        const scrollPos = window.pageYOffset + (header ? header.offsetHeight + 50 : 150); // Laraskan offset untuk header tetap
+
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop;
+            const sectionHeight = section.offsetHeight;
+
+            if (scrollPos >= sectionTop && scrollPos < sectionTop + sectionHeight) {
+                currentSection = section.getAttribute('id');
+            }
+        });
+
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href') === `#${currentSection}`) {
+                link.classList.add('active');
+            }
+        });
+    }
+
+    window.addEventListener('scroll', updateActiveMenuItem);
+    window.addEventListener('load', updateActiveMenuItem); // Panggil semasa muat halaman
+
+    // --- PARALLAX EFFECT FOR GEOMETRIC SHAPES ---
+    const shapes = document.querySelectorAll('.shape');
+    window.addEventListener('scroll', () => {
+        const scrolled = window.pageYOffset;
+
+        shapes.forEach((shape, index) => {
+            const speed = (index + 1) * 0.15; // Dikurangkan dari 0.3 untuk kesan yang lebih halus
+            // translateY menggerakkan bentuk berlawanan arah skrol, memberikan ilusi kedalaman
+            shape.style.transform = `translateY(${scrolled * speed}px) rotate(${-scrolled * 0.05}deg)`;
+        });
+    });
+
+    // --- NEURAL LINES PULSE EFFECT ---
+    const neuralLines = document.querySelectorAll('.neural-line');
+    // Fungsi ini dikendalikan oleh setInterval untuk kesan berulang
+    if (neuralLines.length > 0) {
+        setInterval(() => {
+            neuralLines.forEach((line, index) => {
+                setTimeout(() => {
+                    line.style.opacity = '1';
+                    line.style.transform = 'scaleX(1.2)';
+                    setTimeout(() => {
+                        line.style.opacity = '0.2';
+                        line.style.transform = 'scaleX(0.5)';
+                    }, 200);
+                }, index * 300);
+            });
+        }, 3000); // Masa diperlahankan sedikit
+    }
+
+    // --- ENHANCED PARTICLE GENERATION ---
+    function createQuantumParticle() {
+        const particle = document.createElement('div');
+        particle.style.position = 'fixed';
+        particle.style.width = Math.random() * 4 + 1 + 'px';
+        particle.style.height = particle.style.width;
+        particle.style.background = ['#00ffff', '#ff0080', '#8000ff'][Math.floor(Math.random() * 3)];
+        particle.style.borderRadius = '50%';
+        particle.style.left = Math.random() * 100 + '%';
+        particle.style.top = '100vh';
+        particle.style.pointerEvents = 'none';
+        particle.style.zIndex = '-1';
+        particle.style.boxShadow = `0 0 10px ${particle.style.background}`;
+
+        document.body.appendChild(particle);
+
+        const duration = Math.random() * 3000 + 3000; // Durasi dinaikkan
+        const drift = (Math.random() - 0.5) * 300; // Drift dinaikkan
+
+        particle.animate([
+            { transform: 'translateY(0px) translateX(0px)', opacity: 0 },
+            { transform: `translateY(-100vh) translateX(${drift}px)`, opacity: 1 }
+        ], {
+            duration: duration,
+            easing: 'ease-out'
+        }).onfinish = () => particle.remove();
+    }
+
+    // Generate quantum particles
+    setInterval(createQuantumParticle, 1000); // Dihasilkan dengan lebih kerap
+
+    // --- INTERSECTION OBSERVER FOR ANIMATIONS ---
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                // Tambah kelas untuk mengaktifkan animasi dari CSS
+                entry.target.style.opacity = '1';
+                entry.target.style.transform = 'translateY(0)';
+                observer.unobserve(entry.target); // Berhenti memerhati selepas animasi pertama
+            }
+        });
+    }, observerOptions);
+
+    // Observe timeline items and hexagons
+    document.querySelectorAll('.timeline-content, .hexagon').forEach(el => {
+        // Gaya awal (opacity dan transform) ditetapkan dalam CSS, tetapi JS boleh mengesahkannya
+        // el.style.opacity = '0'; // Ditetapkan di CSS
+        // el.style.transform = 'translateY(50px)'; // Ditetapkan di CSS
+        observer.observe(el);
+    });
+
+    // --- FORM SUBMISSION EFFECT ---
+    const submitButton = document.querySelector('.submit-btn');
+    if (submitButton) {
+        submitButton.addEventListener('click', function(e) {
+            e.preventDefault();
+            this.innerHTML = 'MENGHANTAR...';
+            this.style.background = 'linear-gradient(45deg, #8000ff, #00ffff)';
+
+            setTimeout(() => {
+                this.innerHTML = 'BERJAYA DIHANTAR!!';
+                this.style.background = 'linear-gradient(45deg, #00ff00, #00ffff)';
+
+                setTimeout(() => {
+                    this.innerHTML = 'DIHANTAR KE AKIMM';
+                    this.style.background = 'linear-gradient(45deg, #00ffff, #ff0080)';
+                }, 2000);
+            }, 1500);
+        });
+    }
+
+});        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
                 const targetId = this.getAttribute('href');
@@ -189,5 +363,6 @@ https://templatemo.com/tm-597-neural-glass
             }, 1500);
 
         });
+
 
 
