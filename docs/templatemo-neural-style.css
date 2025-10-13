@@ -1,40 +1,226 @@
 /*
-
 TemplateMo 597 Neural Glass
-
-https://templatemo.com/tm-597-neural-glass
-
+MODIFIED FOR RESPONSIVE DESIGN & JS INTEGRATION
 */
-
 
 @charset "utf-8";
 /* CSS Document */
- * {
-     margin: 0;
-     padding: 0;
-     box-sizing: border-box;
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
- body {
-     font-family: 'Inter', 'Segoe UI', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
-     background: #000;
-     color: #e0a3ff;
-     overflow-x: hidden;
-     min-height: 100vh;
-     font-weight: 400;
-     line-height: 1.6;
-     -webkit-font-smoothing: antialiased;
-     -moz-osx-font-smoothing: grayscale;
+
+body {
+    font-family: 'Inter', 'Segoe UI', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+    background: #000;
+    color: #e0a3ff;
+    overflow-x: hidden;
+    min-height: 100vh;
+    font-weight: 400;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-size: 16px; 
 }
-/* Enhanced background colors - Purple/Pink/Green palette */
- .neural-background {
-     position: fixed;
-     top: 0;
-     left: 0;
-     width: 100%;
-     height: 100%;
-     z-index: -2;
-     background: radial-gradient(circle at 15% 85%, rgba(75, 0, 130, 0.7) 0%, transparent 50%), radial-gradient(circle at 85% 15%, rgba(139, 37, 99, 0.8) 0%, transparent 50%), radial-gradient(circle at 45% 60%, rgba(128, 0, 128, 0.6) 0%, transparent 50%), radial-gradient(circle at 70% 40%, rgba(34, 139, 34, 0.4) 0%, transparent 50%), linear-gradient(135deg, #0a0a0a 0%, #2d1b3d 50%, #000000 100%);
-     animation: backgroundPulse 14s ease-in-out infinite;
+
+/* Base sections padding */
+.hero, .features, .showcase, .timeline, .contact {
+    padding: 8rem 0;
+}
+
+/* --- BACKGROUND STYLES & SHAPES (DISELARASKAN DENGAN JS PARALLAX) --- */
+.neural-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -2;
+    background: radial-gradient(circle at 15% 85%, rgba(75, 0, 130, 0.7) 0%, transparent 50%), radial-gradient(circle at 85% 15%, rgba(139, 37, 99, 0.8) 0%, transparent 50%), radial-gradient(circle at 45% 60%, rgba(128, 0, 128, 0.6) 0%, transparent 50%), radial-gradient(circle at 70% 40%, rgba(34, 139, 34, 0.4) 0%, transparent 50%), linear-gradient(135deg, #0a0a0a 0%, #2d1b3d 50%, #000000 100%);
+    animation: backgroundPulse 14s ease-in-out infinite;
+}
+.geometric-shapes {
+    position: absolute; /* Tukar kepada absolute untuk berfungsi dengan parallax */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    overflow: hidden;
+    /* Penting: Parallax akan mengendalikan pergerakan */
+}
+.shape {
+    position: absolute;
+    background: linear-gradient(135deg, rgba(255, 105, 180, 0.9), rgba(224, 163, 255, 0.9));
+    /* Animation 'floatShape' DIBUANG kerana kini dikendalikan oleh JS Parallax */
+    border: none;
+    border-radius: 0;
+    transform: rotate(-45deg); /* Default state */
+    backdrop-filter: blur(5px);
+    box-shadow: 0 0 20px rgba(255, 105, 180, 0.5);
+    transition: transform 0.1s linear; /* Untuk pergerakan parallax yang lancar */
+    pointer-events: none;
+}
+/* Tetapan kedudukan awal */
+.shape:nth-child(1) { width: 6.25rem; height: 6.25rem; left: 10%; top: 15%; } 
+.shape:nth-child(2) { width: 3.75rem; height: 3.75rem; left: 70%; top: 40%; } 
+.shape:nth-child(3) { width: 5rem; height: 5rem; left: 30%; top: 75%; } 
+.shape:nth-child(4) { width: 7.5rem; height: 7.5rem; left: 50%; top: 90%; } 
+
+/* Gaya partikel dan neural lines (neural lines pulse dikendalikan oleh JS) */
+.neural-lines {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+}
+.neural-line {
+    position: absolute;
+    height: 1px;
+    opacity: 0.2; /* Default state */
+    transform: scaleX(0.5);
+    transition: all 0.2s ease-in-out; /* Untuk kesan pulse dari JS */
+}
+
+/* --- HEADER & NAVIGATION (DISELARASKAN DENGAN JS SCROLL & HIGHLIGHTING) --- */
+header {
+    position: fixed;
+    top: 1.25rem; 
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 100;
+    width: 96%;
+    max-width: 1200px;
+    padding: 1rem 2rem; 
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    background: rgba(224, 163, 255, 0.08); 
+    backdrop-filter: blur(25px);
+    border: 1px solid rgba(224, 163, 255, 0.15);
+    border-radius: 1.5625rem; 
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+/* KESAN SCROLL: Kelas .scrolled diaktifkan oleh JS */
+header.scrolled {
+    background: rgba(224, 163, 255, 0.12); 
+    backdrop-filter: blur(30px);
+    border-color: rgba(224, 163, 255, 0.2);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.15), 0 0 0 1px rgba(224, 163, 255, 0.1);
+}
+
+.nav-links {
+    display: flex;
+    list-style: none;
+    gap: 0.75rem;
+}
+
+/* Active link highlighting (Diaktifkan oleh JS updateActiveMenuItem) */
+.nav-links a.active, .mobile-nav a.active {
+    color: #e0a3ff;
+    background: linear-gradient(135deg, rgba(224, 163, 255, 0.15), rgba(255, 105, 180, 0.1));
+    box-shadow: 0 0 20px rgba(224, 163, 255, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 4px 15px rgba(224, 163, 255, 0.2);
+    border: 1px solid rgba(224, 163, 255, 0.3);
+    text-shadow: 0 0 10px rgba(224, 163, 255, 0.8);
+    transform: translateY(-1px);
+}
+
+/* Mobile Menu Toggle (di PC tersembunyi) */
+.mobile-menu-toggle {
+    display: none; 
+    flex-direction: column;
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
+}
+
+.hamburger-line {
+    width: 1.5625rem;
+    height: 0.1875rem;
+    background: linear-gradient(45deg, #e0a3ff, #ff69b4);
+    margin: 0.1875rem 0;
+    border-radius: 2px;
+    transition: all 0.3s ease;
+}
+
+/* CSS untuk animasi 'X' (diaktifkan oleh JS dengan kelas .active) */
+.mobile-menu-toggle.active .hamburger-line:nth-child(1) {
+    transform: rotate(45deg) translate(0.5625rem, 0.5625rem);
+}
+.mobile-menu-toggle.active .hamburger-line:nth-child(2) {
+    opacity: 0;
+}
+.mobile-menu-toggle.active .hamburger-line:nth-child(3) {
+    transform: rotate(-45deg) translate(0.4375rem, -0.375rem);
+}
+
+.mobile-nav {
+    position: fixed;
+    top: 5.625rem; 
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 99;
+    width: 90%;
+    max-width: 400px;
+    background: rgba(0, 0, 0, 0.95);
+    backdrop-filter: blur(25px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 1.25rem;
+    padding: 1.875rem;
+    display: none; /* Default sembunyi. Diubah kepada 'flex' oleh JS. */
+    flex-direction: column;
+    gap: 1.25rem;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
+    opacity: 0; /* Default opacity untuk transisi yang licin */
+    transition: opacity 0.3s ease-out, transform 0.3s ease-out;
+}
+
+/* KESAN MOBILE MENU: Kelas .active diaktifkan oleh JS */
+.mobile-nav.active {
+    display: flex; 
+    opacity: 1;
+    transform: translateX(-50%) translateY(0); /* Kembali ke posisi asal */
+}
+/* Set posisi awal sedikit tinggi untuk transisi slideDown */
+.mobile-nav:not(.active) {
+    transform: translateX(-50%) translateY(-20px);
+}
+
+/* --- ANIMASI INTERSECTION OBSERVER --- */
+/* Item yang akan diperhatikan oleh Intersection Observer */
+.timeline-content, .hexagon {
+    opacity: 0;
+    transform: translateY(50px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+
+/* ****************************************************** */
+/* MEDIA QUERY UNTUK MOBILE (Maksimum 1000px) */
+/* ****************************************************** */
+@media (max-width: 1000px) {
+    
+    .nav-links {
+        display: none;
+    }
+
+    .mobile-menu-toggle {
+        display: flex;
+    }
+
+    header {
+        padding: 0.75rem 1rem;
+    }
+
+    .hero, .features, .showcase, .timeline, .contact {
+        padding: 5rem 0; 
+    }
+}     animation: backgroundPulse 14s ease-in-out infinite;
 }
  @keyframes backgroundPulse {
      0%, 100% {
