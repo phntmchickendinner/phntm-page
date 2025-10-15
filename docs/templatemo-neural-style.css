@@ -293,6 +293,10 @@ https://templatemo.com/tm-597-neural-glass
     font-size: 0.8em;
     vertical-align: super;
 }
+/* (menukar semua pautan navigasi) */
+.nav-links a {
+    color: #ae0c0c; /* Contoh: Warna hijau neon */
+}
  @keyframes borderGlow {
      0% {
          background-position: 0% 50%;
